@@ -1,0 +1,334 @@
+<h2>Projects</h2>
+      <section class="project-timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-cards">
+          
+          <div class="timeline-card">
+            <div class="icon-box">
+              <div class="icon">&#x2764;</div>
+              <div class="title">BookSync</div>
+            </div>
+            <div class="tooltip">
+              <p>A full-stack reading tracker with Goodreads scraping, diary features, and theme support.</p>
+            </div>
+          </div>
+      
+          <div class="timeline-card">
+            <div class="icon-box">
+              <div class="icon">&#x2660;</div>
+              <div class="title">HospitalHub</div>
+            </div>
+            <div class="tooltip">
+              <p>Smart hospital system built in Java & MySQL with login, treatment plans, and medicine tracking.</p>
+            </div>
+          </div>
+      
+          <div class="timeline-card">
+            <div class="icon-box">
+              <div class="icon">&#x2666;</div>
+              <div class="title">USA 3</div>
+            </div>
+            <div class="tooltip">
+              <p>Final-year research project bridging authors and readers with modular feedback and smart analytics.</p>
+            </div>
+          </div>
+      
+          <div class="timeline-card">
+            <div class="icon-box">
+              <div class="icon">&#x2663;</div>
+              <div class="title">Writer's Deck</div>
+            </div>
+            <div class="tooltip">
+              <p>Interactive writing dashboard with chapter management, inspiration feed, and story templates.</p>
+            </div>
+          </div>
+      
+        </div>
+      </section>
+      
+      </section>
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fefdfb;
+  color: #333;
+  line-height: 1.6;
+  padding-top: 80px;
+  transition: background 0.3s, color 0.3s;
+}
+
+[data-theme="creative"] body {
+  background-color: #fff7f0;
+  color: #3e2f2f;
+  font-family: 'Playfair Display', serif;
+}
+
+[data-theme="tech"] body {
+  background-color: #fefdfb;
+  color: #333;
+  font-family: 'Inter', sans-serif;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+nav .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+nav .logo:hover {
+  color: #ff6600;
+}
+
+nav ul {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+nav ul li a,
+nav ul li button {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li button:hover {
+  color: #ff6600;
+}
+
+#modeToggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  transition: transform 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modeToggle.spin {
+  animation: spin 0.6s ease-in-out;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#modeToggle svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background-color: #fff;
+    width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    display: none;
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  .toggle {
+    display: flex;
+  }
+}
+
+section {
+  padding: 4rem 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ddd;
+  display: inline-block;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul {
+  padding-left: 1.5rem;
+}
+
+
+/* ***********Project section styling ************** */
+
+.project-timeline {
+  position: relative;
+  margin: 4rem 0;
+  overflow-x: hidden;
+  padding: 4rem 1rem 2rem;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, transparent, #333, transparent);
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.timeline-cards {
+  display: flex;
+  gap: 3rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+}
+
+.timeline-cards::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.timeline-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  min-width: 150px;
+  max-width: 180px;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+
+.icon-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-card .icon {
+  font-size: 2.5rem;
+  color: gray;
+  transition: all 0.4s ease;
+}
+
+.timeline-card .title {
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+/* Hover magic */
+.timeline-card:hover {
+  background: #1a1a1a;
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
+}
+
+.timeline-card:hover .icon {
+  color: red;
+  transform: scale(1.3);
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.timeline-card:hover .title {
+  color: red;
+}
+
+.tooltip {
+  display: none;
+  margin-top: 1rem;
+  background: #fff;
+  color: #111;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.timeline-card:hover .tooltip {
+  display: block;
+}
+
+
+
+
+
+<script>
+  // Auto-scroll animation for timeline
+  const scrollContainer = document.querySelector('.timeline-cards');
+  let scrollAmount = 0;
+  let direction = 1;
+
+  setInterval(() => {
+    if (!scrollContainer) return;
+
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+
+    scrollAmount += 1 * direction;
+    if (scrollAmount >= maxScroll || scrollAmount <= 0) {
+      direction *= -1;
+    }
+
+    scrollContainer.scrollTo({
+      left: scrollAmount,
+      behavior: 'smooth'
+    });
+  }, 30); // speed of scroll (lower is faster)
+</script>
+
