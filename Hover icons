@@ -1,0 +1,106 @@
+<section class="project-timeline">
+  <div class="timeline-line"></div>
+  <div class="timeline-cards">
+    <div class="timeline-card">
+      <div class="icon">&#x2764;</div> <!-- Heart -->
+      <div class="tooltip">
+        <h3>BookSync</h3>
+        <p>A full-stack reading tracker with Goodreads scraping, diary features, and theme support.</p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="icon">&#x2660;</div> <!-- Spade -->
+      <div class="tooltip">
+        <h3>HospitalHub</h3>
+        <p>Smart hospital system built in Java & MySQL with login, treatment plans, and medicine tracking.</p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="icon">&#x2666;</div> <!-- Diamond -->
+      <div class="tooltip">
+        <h3>USA 3</h3>
+        <p>Final-year research project bridging authors and readers with modular feedback and smart analytics.</p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="icon">&#x2663;</div> <!-- Club -->
+      <div class="tooltip">
+        <h3>Writer's Deck</h3>
+        <p>Interactive writing dashboard with chapter management, inspiration feed, and story templates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+.project-timeline {
+  position: relative;
+  margin: 4rem 0;
+  overflow-x: auto;
+  padding: 4rem 2rem 2rem;
+  white-space: nowrap;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, transparent, #333, transparent);
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.timeline-cards {
+  display: flex;
+  gap: 4rem;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-card {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.4s ease;
+  background: transparent;
+}
+
+.timeline-card .icon {
+  font-size: 3rem;
+  color: #777;
+  transition: all 0.4s ease;
+  padding: 0.5rem 1rem;
+}
+
+.timeline-card:hover .icon {
+  color: #DAA520; /* Antique gold */
+  transform: scale(1.2) rotate(-3deg);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 240px;
+  z-index: 3;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.timeline-card:hover .tooltip {
+  display: block;
+}
