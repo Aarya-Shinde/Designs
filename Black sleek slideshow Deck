@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Timeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cardo', serif;
+      background-color: #0f0f0f;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    .timeline-container {
+      position: relative;
+      width: 100vw;
+      overflow: hidden;
+      padding: 2rem 0;
+      border-top: 3px solid #aa0000;
+      border-bottom: 3px solid #aa0000;
+    }
+
+    .project-cards {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 3rem;
+      animation: scroll 50s linear infinite;
+      will-change: transform;
+      padding-left: 0;
+    }
+
+    .project-card {
+      flex: 0 0 auto;
+      width: 200px;
+      text-align: center;
+      position: relative;
+      filter: grayscale(100%) brightness(0.7);
+      transition: filter 0.6s ease-in-out, transform 0.6s ease-in-out;
+      cursor: pointer;
+    }
+
+    .project-card:hover {
+      filter: grayscale(0%) brightness(1);
+      transform: scale(1.1);
+    }
+
+    .icon {
+      font-size: 3rem;
+      color: #fff;
+      transition: color 0.6s ease-in-out;
+    }
+
+    .project-card:hover .icon {
+      color: #ff0000;
+    }
+
+    .details {
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      position: absolute;
+      bottom: -5rem;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: rgba(0,0,0,0.8);
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+
+    .project-card:hover .details {
+      opacity: 1;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .pause-scroll {
+      animation-play-state: paused;
+    }
+  </style>
+</head>
+<body>
+  <div class="timeline-container">
+    <div class="project-cards" id="projectCards">
+      <div class="project-card">
+        <div class="icon">♥️</div>
+        <div class="name">Project Heart</div>
+        <div class="details">This project is built with love and passion.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♦️</div>
+        <div class="name">Diamond Vision</div>
+        <div class="details">A sharp and valuable experience in web design.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♠️</div>
+        <div class="name">Ace of Spades</div>
+        <div class="details">Top-tier full-stack project, powerful and stylish.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♣️</div>
+        <div class="name">Clover App</div>
+        <div class="details">Lucky utility tool with seamless UX design.</div>
+      </div>
+      <!-- Duplicate for looping effect -->
+      <div class="project-card">
+        <div class="icon">♥️</div>
+        <div class="name">Project Heart</div>
+        <div class="details">This project is built with love and passion.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♦️</div>
+        <div class="name">Diamond Vision</div>
+        <div class="details">A sharp and valuable experience in web design.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♠️</div>
+        <div class="name">Ace of Spades</div>
+        <div class="details">Top-tier full-stack project, powerful and stylish.</div>
+      </div>
+      <div class="project-card">
+        <div class="icon">♣️</div>
+        <div class="name">Clover App</div>
+        <div class="details">Lucky utility tool with seamless UX design.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const projectCards = document.getElementById('projectCards');
+
+    // Auto-pause on hover
+    projectCards.addEventListener('mouseenter', () => {
+      projectCards.classList.add('pause-scroll');
+    });
+
+    projectCards.addEventListener('mouseleave', () => {
+      projectCards.classList.remove('pause-scroll');
+    });
+
+    // Auto-pause on touch or scroll
+    let pauseTimeout;
+    ['scroll', 'touchstart'].forEach(evt => {
+      window.addEventListener(evt, () => {
+        projectCards.classList.add('pause-scroll');
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => {
+          projectCards.classList.remove('pause-scroll');
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
