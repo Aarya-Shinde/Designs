@@ -1,0 +1,203 @@
+// Interactive diagonal tech stack boxes
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tech Stack</title>
+    <style>
+        /* General body and typography styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0c0c0c;
+            color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px; /* Establishes a 3D viewing context */
+            cursor: move; /* Hints at the interactive nature */
+        }
+
+        /* Hero section for the title and subtitle */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #64ffda;
+            text-shadow: 0 0 10px #64ffda80;
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: 3.5em; }
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #c0c0c0;
+        }
+
+        /* --- 3D Container for the stack --- */
+        .tech-stack-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stack-wrapper {
+            /* This div rotates in 3D based on mouse input */
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out; /* Smooths the mouse-following effect */
+            transform: rotateX(20deg) rotateY(20deg); /* Initial diagonal view */
+        }
+        
+        /* The main stack element that holds the items */
+        .isometric-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform-style: preserve-3d;
+        }
+
+        /* Each individual technology item */
+        .stack-item {
+            display: flex;
+            align-items: center;
+            background-color: rgba(30, 40, 50, 0.7);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #333;
+            transform-style: preserve-3d;
+            box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .stack-item:hover {
+            transform: translateZ(50px); /* Lifts the item forward in 3D space */
+            box-shadow: -20px 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Style for the technology icon and name */
+        .stack-icon {
+            font-size: 2em;
+            margin-right: 1rem;
+            text-shadow: 0 0 5px #fff;
+        }
+        
+        .stack-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        /* Specific colors for each tech item */
+        .react .stack-icon { color: #61dafb; }
+        .node .stack-icon { color: #68a063; }
+        .mongodb .stack-icon { color: #4db33d; }
+        .aws .stack-icon { color: #ff9900; }
+        .docker .stack-icon { color: #0db7ed; }
+        .python .stack-icon { color: #ffd43b; }
+        .typescript .stack-icon { color: #3178c6; }
+        .angular .stack-icon { color: #dd1b16; }
+
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>My Tech Stack</h1>
+        <p>Move your mouse around to explore.</p>
+    </div>
+
+    <div class="tech-stack-container">
+        <div class="stack-wrapper" id="stack-wrapper">
+            <div class="isometric-stack">
+                <div class="stack-item react">
+                    <span class="stack-icon">⚛️</span>
+                    <span class="stack-name">React</span>
+                </div>
+                <div class="stack-item node">
+                    <span class="stack-icon">🟢</span>
+                    <span class="stack-name">Node.js</span>
+                </div>
+                <div class="stack-item mongodb">
+                    <span class="stack-icon">🍃</span>
+                    <span class="stack-name">MongoDB</span>
+                </div>
+                <div class="stack-item docker">
+                    <span class="stack-icon">🐳</span>
+                    <span class="stack-name">Docker</span>
+                </div>
+                <div class="stack-item python">
+                    <span class="stack-icon">🐍</span>
+                    <span class="stack-name">Python</span>
+                </div>
+                <div class="stack-item typescript">
+                    <span class="stack-icon">🔵</span>
+                    <span class="stack-name">TypeScript</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stackWrapper = document.getElementById('stack-wrapper');
+        const container = document.body;
+        const rotateSensitivity = 10; // Adjust for more or less sensitivity
+
+        /**
+         * Calculates and applies the 3D rotation based on mouse or touch position.
+         * @param {number} x - The x-coordinate of the pointer.
+         * @param {number} y - The y-coordinate of the pointer.
+         */
+        function updateRotation(x, y) {
+            const rect = container.getBoundingClientRect();
+            // Calculate the position relative to the center of the viewport
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Normalize coordinates to a range of -1 to 1
+            const normalizedX = (x - centerX) / (rect.width / 2);
+            const normalizedY = (y - centerY) / (rect.height / 2);
+            
+            // Calculate rotation angles
+            // The Y-axis rotation is controlled by the X-coordinate and vice versa
+            const rotateY = normalizedX * rotateSensitivity;
+            const rotateX = -normalizedY * rotateSensitivity;
+            
+            // Apply the transform
+            stackWrapper.style.transform = `rotateX(${20 + rotateX}deg) rotateY(${20 + rotateY}deg)`;
+        }
+
+        // Event listener for mouse movement
+        container.addEventListener('mousemove', (e) => {
+            updateRotation(e.clientX, e.clientY);
+        });
+
+        // Event listeners for touch movement
+        container.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                updateRotation(touch.clientX, touch.clientY);
+            }
+        });
+
+        // Optional: Reset rotation when pointer leaves the container
+        container.addEventListener('mouseleave', () => {
+            stackWrapper.style.transform = `rotateX(20deg) rotateY(20deg)`;
+        });
+
+    </script>
+</body>
+</html>
