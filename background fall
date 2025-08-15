@@ -1,0 +1,104 @@
+// simple card sections falling in the background
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarya Shinde Portfolio</title>
+    <!-- Google Fonts for a distinct look -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and font styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0d0d0d;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden; /* Important to prevent horizontal/vertical scrollbars */
+        }
+        
+        /* Typography */
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Falling Cards Background --- */
+        .falling-cards-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through */
+            z-index: 10; /* Ensures they are behind the main content */
+        }
+        
+        .card-icon-bg {
+            position: absolute;
+            font-size: 4rem; /* Initial size */
+            color: rgba(255, 255, 255, 0.1);
+            transform-origin: center center;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            /* Initial visibility */
+            opacity: 0;
+        }
+
+        /* Keyframes for the falling and rotating animation */
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(200vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This container holds the falling card background -->
+    <div class="falling-cards-container"></div>
+
+    <script>
+        // --- Falling Cards Logic ---
+        const fallingCardsContainer = document.querySelector('.falling-cards-container');
+        const suits = ['❤️', '♠️', '♦️', '♣️'];
+
+        function createFallingCard() {
+            const card = document.createElement('div');
+            card.className = 'card-icon-bg';
+            card.textContent = suits[Math.floor(Math.random() * suits.length)];
+
+            // Randomize position, size, duration, and delay
+            const size = Math.random() * 2 + 1; // 1rem to 3rem
+            const startPosition = Math.random() * 100;
+            const animationDuration = Math.random() * 20 + 10; // 10s to 30s
+            const animationDelay = Math.random() * 15; // 0s to 15s
+            const initialRotation = Math.random() * 360;
+
+            card.style.left = `${startPosition}vw`;
+            card.style.fontSize = `${size}rem`;
+            card.style.animation = `fall ${animationDuration}s ${animationDelay}s linear infinite`;
+            card.style.transform = `rotate(${initialRotation}deg)`;
+
+            fallingCardsContainer.appendChild(card);
+        }
+
+        // Create a large number of falling cards
+        for (let i = 0; i < 50; i++) {
+            createFallingCard();
+        }
+    </script>
+</body>
+</html>
+
+
