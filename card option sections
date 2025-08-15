@@ -1,0 +1,347 @@
+// Design that shows cards option to choose from and reveals more details when clicked.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Game of Life - Portfolio</title>
+    <!-- Google Fonts for a distinct look -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and font styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0d0d0d;
+            color: #fff;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden; /* Prevent body scrolling when modal is open */
+        }
+        
+        /* Typography */
+        .font-mono {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Header styling */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f87171; /* A distinct red color */
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px rgba(248, 113, 129, 0.5);
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 5rem;
+            }
+        }
+
+        p {
+            margin-top: 1rem;
+            font-size: 1.25rem;
+            color: #d1d5db; /* Light gray for contrast */
+        }
+        
+        /* Grid for the cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 64rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .card-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Styling for each card button */
+        .card-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #1f2937;
+            border: 2px solid #ef4444; /* Red border */
+            border-radius: 1.5rem;
+            padding: 2rem;
+            height: 12rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none; /* In case it's a link */
+            color: inherit;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+            background-color: #374151;
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        .card-button:active {
+            transform: scale(0.98);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card-button:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card-title {
+            margin-top: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #d1d5db;
+        }
+        
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #111827;
+            border: 2px solid #ef4444;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 48rem;
+            width: 90%;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            color: #d1d5db;
+            overflow-y: auto; /* Allow content to scroll */
+            max-height: 90vh; /* Max height to prevent overflowing the viewport */
+        }
+        
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2.5rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            color: #ef4444;
+        }
+
+        .modal-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #f87171;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-description {
+            font-style: italic;
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-body-content {
+            line-height: 1.6;
+        }
+        
+        .modal-body-content ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .modal-body-content a {
+            color: #f87171;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .modal-body-content a:hover {
+            color: #fca5a5;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="font-mono">Welcome to the Game</h1>
+        <p>Choose a card to reveal the next challenge.</p>
+    </header>
+
+    <main class="card-grid">
+        <button id="hearts-card" class="card-button" data-card="hearts">
+            <span class="card-icon">❤️</span>
+            <span class="card-title">Hearts</span>
+        </button>
+        <button id="spades-card" class="card-button" data-card="spades">
+            <span class="card-icon">♠️</span>
+            <span class="card-title">Spades</span>
+        </button>
+        <button id="diamonds-card" class="card-button" data-card="diamonds">
+            <span class="card-icon">♦️</span>
+            <span class="card-title">Diamonds</span>
+        </button>
+        <button id="clubs-card" class="card-button" data-card="clubs">
+            <span class="card-icon">♣️</span>
+            <span class="card-title">Clubs</span>
+        </button>
+    </main>
+
+    <!-- The Modal Container (initially hidden) -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-content" class="modal-content">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            <h2 id="modal-title" class="modal-title font-mono"></h2>
+            <p id="modal-description" class="modal-description"></p>
+            <div id="modal-body-content" class="modal-body-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data for each card's content
+        const portfolioContent = {
+            hearts: {
+                title: 'Hearts: About Me',
+                emoji: '❤️',
+                description: 'The game of hearts is a game of emotion and trust. Here, you will find my story.',
+                content: `<p>Hello! My name is [Your Name], and I am a [Your Profession]. I love [Your Hobbies] and am passionate about [Your Passion]. I believe that great design and code come from a place of genuine curiosity and a desire to solve problems. In my free time, I enjoy [Other Hobbies].</p>`
+            },
+            spades: {
+                title: 'Spades: My Work',
+                emoji: '♠️',
+                description: 'The game of spades is a game of strength and strategy. View my strategic work.',
+                content: `
+                    <p>Here are some of my key projects. Each one represents a different challenge and a unique solution.</p>
+                    <ul>
+                        <li><strong>Project A:</strong> [Brief description of Project A and technologies used.]</li>
+                        <li><strong>Project B:</strong> [Brief description of Project B and technologies used.]</li>
+                        <li><strong>Project C:</strong> [Brief description of Project C and technologies used.]</li>
+                    </ul>
+                `
+            },
+            diamonds: {
+                title: 'Diamonds: My Skills',
+                emoji: '♦️',
+                description: 'The game of diamonds is a game of intellect and logic. Study my logical skills.',
+                content: `
+                    <p>My skillset is a collection of tools I use to bring ideas to life.</p>
+                    <ul>
+                        <li><strong>Languages:</strong> JavaScript, Python, C++, HTML, CSS</li>
+                        <li><strong>Frameworks:</strong> React, Node.js, Express, Next.js</li>
+                        <li><strong>Tools:</strong> Git, Docker, Figma, VS Code</li>
+                        <li><strong>Databases:</strong> MongoDB, PostgreSQL</li>
+                    </ul>
+                `
+            },
+            clubs: {
+                title: 'Clubs: Contact',
+                emoji: '♣️',
+                description: 'The game of clubs is a game of teamwork and community. Let\'s connect and build something together.',
+                content: `
+                    <p>Interested in collaborating or just want to chat? Reach out to me at:</p>
+                    <ul>
+                        <li><strong>Email:</strong> <a href="mailto:your.email@example.com">[your.email@example.com]</a></li>
+                        <li><strong>LinkedIn:</strong> <a href="#" target="_blank">[Your LinkedIn Profile]</a></li>
+                        <li><strong>GitHub:</strong> <a href="#" target="_blank">[Your GitHub Profile]</a></li>
+                    </ul>
+                `
+            }
+        };
+
+        // Get references to all the important DOM elements
+        const cards = document.querySelectorAll('.card-button');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalBodyContent = document.getElementById('modal-body-content');
+
+        // Function to open the modal
+        function openModal(cardType) {
+            const content = portfolioContent[cardType];
+            modalTitle.textContent = content.title;
+            modalDescription.textContent = content.description;
+            modalBodyContent.innerHTML = content.content;
+            modalOverlay.classList.add('visible');
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            modalOverlay.classList.remove('visible');
+        }
+
+        // Add click listeners to all card buttons
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const cardType = card.dataset.card;
+                openModal(cardType);
+            });
+        });
+
+        // Add click listener to the close button
+        modalCloseBtn.addEventListener('click', closeModal);
+
+        // Close modal if user clicks outside the content area
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // Also close modal on 'Escape' key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                closeModal();
+            }
+        });
+
+    </script>
+</body>
+</html>
