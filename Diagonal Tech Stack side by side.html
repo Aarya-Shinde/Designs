@@ -1,0 +1,165 @@
+//Tech Stack side by side overlapping
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagonal Tech Stack</title>
+    <style>
+        /* General body and typography styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0c0c0c;
+            color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevents horizontal scrollbar from diagonal elements */
+        }
+
+        /* Hero section for the title and subtitle */
+        .hero-section {
+            text-align: center;
+            margin: 2rem 0;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #64ffda;
+            text-shadow: 0 0 10px #64ffda80;
+        }
+        
+        @media (min-width: 768px) {
+            h1 { font-size: 3.5em; }
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #c0c0c0;
+        }
+
+        /* --- Grid for the tech blocks (Pinterest style) --- */
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-auto-rows: minmax(100px, auto); /* Allows items to span multiple rows */
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 2rem;
+        }
+
+        /* Tech item styling with the key diagonal transform */
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(30, 40, 50, 0.7);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid #333;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.05);
+            
+            /* Key transform for the diagonal look */
+            transform: skewX(-15deg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover effect to reverse the transform and make it pop out */
+        .tech-item:hover {
+            transform: skewX(-15deg) scale(1.1); /* Adds a slight grow effect */
+            box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.1);
+            z-index: 2; /* Ensures the hovered item is on top */
+        }
+
+        /* Classes to give certain items a larger size */
+        .item-row-2 { grid-row: span 2; }
+        .item-row-3 { grid-row: span 3; }
+        
+        .item-col-2 { grid-column: span 2; }
+
+        .tech-icon {
+            font-size: 3em;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 5px #fff;
+            transform: skewX(15deg); /* Counter-transform to keep the icon straight */
+        }
+        
+        .tech-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            transform: skewX(15deg); /* Counter-transform for the text */
+            text-align: center;
+        }
+        
+        /* Specific colors for each tech item */
+        .react .tech-icon { color: #61dafb; }
+        .node .tech-icon { color: #68a063; }
+        .mongodb .tech-icon { color: #4db33d; }
+        .aws .tech-icon { color: #ff9900; }
+        .docker .tech-icon { color: #0db7ed; }
+        .python .tech-icon { color: #ffd43b; }
+        .typescript .tech-icon { color: #3178c6; }
+        .angular .tech-icon { color: #dd1b16; }
+
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <h1>My Tech Stack</h1>
+        <p>A diagonal view of my technical skills.</p>
+    </div>
+
+    <main class="tech-stack-grid">
+        <div class="tech-item react">
+            <span class="tech-icon">⚛️</span>
+            <span class="tech-name">React</span>
+        </div>
+        <div class="tech-item node item-row-2">
+            <span class="tech-icon">🟢</span>
+            <span class="tech-name">Node.js</span>
+        </div>
+        <div class="tech-item mongodb">
+            <span class="tech-icon">🍃</span>
+            <span class="tech-name">MongoDB</span>
+        </div>
+        <div class="tech-item docker item-row-3">
+            <span class="tech-icon">🐳</span>
+            <span class="tech-name">Docker</span>
+        </div>
+        <div class="tech-item python">
+            <span class="tech-icon">🐍</span>
+            <span class="tech-name">Python</span>
+        </div>
+        <div class="tech-item typescript">
+            <span class="tech-icon">🔵</span>
+            <span class="tech-name">TypeScript</span>
+        </div>
+        <div class="tech-item angular">
+            <span class="tech-icon">🅰️</span>
+            <span class="tech-name">Angular</span>
+        </div>
+        <div class="tech-item aws item-row-2">
+            <span class="tech-icon">☁️</span>
+            <span class="tech-name">AWS</span>
+        </div>
+        <div class="tech-item github">
+            <span class="tech-icon">🐙</span>
+            <span class="tech-name">GitHub</span>
+        </div>
+        <div class="tech-item figma">
+            <span class="tech-icon">🎨</span>
+            <span class="tech-name">Figma</span>
+        </div>
+    </main>
+</body>
+</html>
